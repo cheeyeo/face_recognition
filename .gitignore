@@ -1,0 +1,9 @@
+__pycache__
+*.jpg
+data/
+weights/
+NOTES.md
+*.npz
+*.pickle
+*.h5
+cv2/
