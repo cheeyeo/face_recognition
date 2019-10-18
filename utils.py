@@ -80,3 +80,7 @@ def load_dataset(directory):
 def save_obj(fname, obj):
 	with open(fname, "wb") as f:
 		f.write(pickle.dumps(obj))
+
+def load_obj(fname):
+	with open(fname, "rb") as f:
+		return pickle.load(f)

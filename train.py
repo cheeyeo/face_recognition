@@ -14,51 +14,6 @@ from keras.models import load_model
 
 K.set_image_data_format('channels_first')
 
-# Face verification
-def verify(image_path, target, model):
-	"""
-	image_path: path of source image
-	target: target embedding to compare againsr
-	"""
-	face_pixels = extract_face(image_path)
-	encoding = get_embedding(face_pixels, model)
-
-	dist = np.linalg.norm(target - encoding)
-	print(dist)
-
-	if dist < 0.7:
-		print('Its correct!')
-	else:
-		print('Go away!')
-
-# Face recognition
-# Compares against all other faces i.e. 1:M
-def recognition(image_path, model):
-	"""
-	image_path: path of source image
-	target: target embedding to compare against
-	"""
-	face_pixels = extract_face(image_path)
-	encoding = get_embedding(face_pixels, model)
-
-	min_dist = 100
-
-	# Loop through all registered users in system
-	for idx, enc in enumerate(trainX):
-		name = trainY[idx]
-		dist = np.linalg.norm(enc - encoding)
-
-		if dist < min_dist:
-			min_dist = dist
-			identity = name
-
-	if min_dist > 0.7:
-		print("Not in database.")
-		print("Dist is: {}".format(min_dist))
-	else:
-		print("It's {}, the distance is {}".format(identity, min_dist))
-
-
 data = np.load("faces_embeddings.npz")
 trainX, trainY, testX, testY = data["arr_0"], data["arr_1"], data["arr_2"], data["arr_3"]
 
@@ -88,9 +43,10 @@ trainY = out_encoder.transform(trainY)
 testY = out_encoder.transform(testY)
 
 # CReate SVM model
-model = SVC(kernel="linear", probability=True)
+model = SVC(C=1.0, kernel="linear", probability=True, verbose=True)
 
 model.fit(trainX, trainY)
+print(model.support_vectors_)
 
 save_obj("face_recog_model.pickle", model)
 save_obj("label_encoder.pickle", out_encoder)
@@ -101,5 +57,5 @@ yhat_test = model.predict(testX)
 score_train = accuracy_score(trainY, yhat_train)
 
 score_test = accuracy_score(testY, yhat_test)
-
+print()
 print("Accuracy: Train={:.3f}, Test={:.3f}".format(score_train*100, score_test*100))

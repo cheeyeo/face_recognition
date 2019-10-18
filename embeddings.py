@@ -23,7 +23,7 @@ if not os.path.exists("face_model.h5"):
 	model.save("face_model.h5")
 
 # Convert each face image into embedding
-print("[INFO] Converting into embedding...")
+print("[INFO] Converting faces into embedding...")
 newTrainX = list()
 
 for face_pixels in trainX:
