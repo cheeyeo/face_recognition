@@ -4,13 +4,73 @@ import numpy as np
 from PIL import Image
 from mtcnn.mtcnn import MTCNN
 import pickle
+import cv2
 
-def get_embedding(face_pixels, model):
+def align_face(image, detector, desired_left_eye=(0.35, 0.35), desired_face_width=256, desired_face_height=None):
+	"""
+	[{'box': [315, 88, 170, 222], 'confidence': 0.9803563356399536, 'keypoints': {'left_eye': (382, 164), 'right_eye': (455, 189), 'nose': (409, 217), 'mouth_left': (358, 253), 'mouth_right': (420, 272)}}]
+	"""
+	res = detector.detect_faces(image)[0]
+
+	# compute the center of mass for each eye
+	# the keypoints returned by MTCNN already sets the center
+	left_eye_center = res['keypoints']['left_eye']
+	right_eye_center = res['keypoints']['right_eye']
+
+	# compute the angle between the eye centroids
+	dY = right_eye_center[1] - left_eye_center[1]
+	dX = right_eye_center[0] - left_eye_center[0]
+	angle = np.degrees(np.arctan2(dY, dX))
+
+	# compute the desired right eye x-coordinate based on the
+	# desired x-coordinate of the left eye
+	desired_right_eyeX = 1.0 - desired_left_eye[0]
+
+	# determine the scale of the new resulting image by taking
+	# the ratio of the distance between eyes in the *current*
+	# image to the ratio of distance between eyes in the
+	# *desired* image
+	dist = np.sqrt((dX ** 2) + (dY ** 2))
+	desiredDist = (desired_right_eyeX - desired_left_eye[0])
+	desiredDist *= desired_face_width
+	scale = desiredDist / dist
+
+	# compute center (x, y)-coordinates (i.e., the median point)
+	# between the two eyes in the input image
+	eyesCenter = ((left_eye_center[0] + right_eye_center[0]) // 2,
+		(left_eye_center[1] + right_eye_center[1]) // 2)
+
+	# grab the rotation matrix for rotating and scaling the face
+	M = cv2.getRotationMatrix2D(eyesCenter, angle, scale)
+
+	# update the translation component of the matrix
+	tX = desired_face_width * 0.5
+	tY = desired_face_height * desired_left_eye[1]
+	M[0, 2] += (tX - eyesCenter[0])
+	M[1, 2] += (tY - eyesCenter[1])
+
+	# apply the affine transformation
+	(w, h) = (desired_face_width, desired_face_height)
+	output = cv2.warpAffine(image, M, (w, h),
+		flags=cv2.INTER_CUBIC)
+
+	# return the aligned face
+	return output
+
+def get_embedding(face_pixels, model, mode='normalize'):
 	face_pixels = face_pixels.astype('float32')
 
-	# Normalize pixel values across all channels
-	mean, std = face_pixels.mean(), face_pixels.std()
-	face_pixels = (face_pixels - mean) / std
+	if mode == 'normalize':
+		# Normalize pixel values to be in range 0-1
+		face_pixels /= 255.0
+		print('Min pixels: {:.3f}, Max pixels: {:.3f}'.format(face_pixels.min(), face_pixels.max()))
+	elif mode == 'standardize':
+		# Standardize pixel values across all channels
+		# Mean of 0, std dev of 1
+		# Below implements global standardization
+		mean, std = face_pixels.mean(), face_pixels.std()
+		face_pixels = (face_pixels - mean) / std
+
 	# Convert to channels first format
 	face_pixels = np.moveaxis(face_pixels, 2, 0)
 

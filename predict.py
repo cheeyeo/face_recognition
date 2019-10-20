@@ -26,5 +26,6 @@ preds = recognizer.predict_proba(embedding)[0]
 print(preds)
 j = np.argmax(preds)
 proba = preds[j]
+print(le.classes_)
 identity = le.classes_[j]
 print("[INFO] Identity: {}, Prob: {:.3f}".format(identity, proba))
