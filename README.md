@@ -16,7 +16,7 @@ Before training, each image from both the training and validation sets are pre-p
 
 These embedding features are serialized and used in the training process as input.
 
-The output of the model will be the identiy of each image which corresponds to the sub-directory name the image is stored in. These are one-hot encoded and used as the output labels in the training phase. 
+The output of the model will be the identiy of each image which corresponds to the sub-directory name the image is stored in. These are integer encoded and used as the output labels in the training phase. 
 
 ## 2. Test harness
 
@@ -34,14 +34,13 @@ The `accuracy_score` function is used to evaluate the true/correct labels from t
 
 ( Describes the baseline model performance (using the test harness) that defines whether a model is skillful or not. )
 
-The baseline model is a single linear SVM clasisfier which will take as input the facial embeddings and the one-hot encoded identities as output. 
+The baseline model is a single linear SVM clasisfier which will take as input the facial embeddings and the integer encoded identities as output. 
 
 During training, the goal of the SVM classifier will be to learn enough distinct features from the embeddings in order to be able to separate them linearly since similar embeddings belonging to the same identity should be closer in distance in the geometric space to each other.
 
 After training, the model is evaluated against the unseen validation set.
 
-Accuracy on the training set is `77.876` and accuracy on the validation set is `70.0`
-
+Accuracy on the training set for the baseline model is `77.876` and accuracy on the validation set for the baseline model is `70.0`
 
 ## 4. Experimental Results
 
@@ -54,8 +53,8 @@ Accuracy on the training set is `77.876` and accuracy on the validation set is `
 
 ### 4.1 Facial Alignment
 
-#### Intent
-The extracted facial images are of different orientations and scale. This would affect the quality of the embeddings generated as it would not be able to capture the salient facial features accurately.
+### Intent
+The extracted facial images are of different orientations and scale. This could affect the quality of the embeddings generated as it would not be able to capture the salient facial features accurately.
 
 Facial alignment attempts to create more accurate facial embeddings by aligning each extracted face in the same position based on the horizontal alignment of the eyes.
 
@@ -74,19 +73,19 @@ Original Image | Aligned Image
 ![Original image](artifacts/orig.jpg) | ![Aligned image](artifacts/orig_aligned.jpg)
 
 
-The aligned images are resized into (96, 96) dimensions which is a requirement input size for the Facenet model. Embeddings are created from these aligned images and serialized to disk using the same methods for data preparation during the training process.
+The aligned images are resized into **(96, 96)** dimensions which is a requirement input size for the Facenet model. Embeddings are created from these aligned images and serialized to disk using the same methods for data preparation during the training process.
 
 ### Expectations / Results
 
 The main expectation is that there should be an improvement on the model's overally accuracy scores. This is because the faces are centered in the image; the eyes are horizontally aligned; and the scaled faces are similar in size.
 
-Running the training script shows that the overall model accuracy has improved to the following:
+Running the training script shows that the overall model accuracy has increased to the following:
 
 ```
 Accuracy: Train=88.496, Test=83.333
 ```
 
-This means that the model is able to correctly predict 88% of the training data compared to the expected training labels; correctly predict 83% of the validation data compared to the expected validation labels.
+This means that the model is able to correctly predict 88% of the training data compared to the expected training labels; and correctly predicted 83% of the validation data compared to the expected validation labels.
 
 ( TODO: Use PCA to visualize quality of aligned embeddings compared to non-aligned embeddings. )
 

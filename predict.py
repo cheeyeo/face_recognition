@@ -4,11 +4,15 @@ import argparse
 from model import face_model, triplet_loss
 from utils import load_obj, extract_face, get_embedding
 from keras.models import load_model
+from mtcnn.mtcnn import MTCNN
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True, help="Path to image to perform recognition.")
 
 args = vars(ap.parse_args())
+
+# Load the facial detector
+detector = MTCNN()
 
 model = load_model("face_model.h5", custom_objects={"triplet_loss": triplet_loss})
 
@@ -17,7 +21,7 @@ le = load_obj("label_encoder.pickle")
 
 # print(recognizer.support_vectors_)
 
-face = extract_face(args["image"])
+face = extract_face(args["image"], detector, align=True)
 embedding = get_embedding(face, model)
 print(embedding.shape)
 

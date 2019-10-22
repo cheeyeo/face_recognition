@@ -1,6 +1,11 @@
 # Sample script to build face images using webcam
 # Reference: https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/
 
+# To build a dataset:
+"""
+python build_face_dataset.py -o data/train/chee -p cv2/deploy.prototxt.txt -m cv2/res10_300x300_ssd_iter_140000.caffemodel
+"""
+
 from imutils.video import VideoStream
 import imutils
 import os
@@ -66,7 +71,7 @@ while True:
 		if not os.path.exists(args['output']):
 			os.makedirs(args['output'])
 
-		p = os.path.sep.join([args['output'], '{}.png'.format(str(total).zfill(5))])
+		p = os.path.sep.join([args['output'], '{}.jpg'.format(str(total).zfill(5))])
 		cv2.imwrite(p, orig)
 		total += 1
 	elif key == ord('q'):
