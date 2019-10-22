@@ -42,7 +42,7 @@ out_encoder.fit(trainY)
 trainY = out_encoder.transform(trainY)
 testY = out_encoder.transform(testY)
 
-# CReate SVM model
+# Create SVM model
 model = SVC(C=1.0, kernel="linear", probability=True, verbose=True)
 
 model.fit(trainX, trainY)

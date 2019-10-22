@@ -7,3 +7,4 @@ NOTES.md
 *.pickle
 *.h5
 cv2/
+.ipynb_checkpoints/
