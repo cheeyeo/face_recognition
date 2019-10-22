@@ -103,17 +103,18 @@ This means that the model is able to correctly predict 88% of the training data 
 ( Describes areas that were considered but not addressed in the project that could be explored in the future. )
 
 ## 8. Resources
+[Deep Learning for Computer Vision]: https://machinelearningmastery.com/deep-learning-for-computer-vision
+[Convolutional Model course from deeplearning.ai]: https://www.coursera.org/learn/convolutional-neural-networks
+[How to collate face recognition dataset]: https://www.pyimagesearch.com/2018/06/11/how-to-build-a-custom-face-recognition-dataset/
+[How to detect faces from video stream in open cv]: https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/
+[OpenCV Face Recognition]: https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition
+[5 celebrities faces dataset]: https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset
+[FaceNet model]: https://github.com/iwantooxxoox/Keras-OpenFace/
 
-* [Deep Learning for Computer Vision]: https://machinelearningmastery.com/deep-learning-for-computer-vision
-
-* [Convolutional Model course from deeplearning.ai]: https://www.coursera.org/learn/convolutional-neural-networks
-
-* [How to collate face recognition dataset]: https://www.pyimagesearch.com/2018/06/11/how-to-build-a-custom-face-recognition-dataset/
-
-* [How to detect faces from video stream in open cv]: https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/
-
-* [OpenCV Face Recognition]: https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition
-
-* [5 celebrities faces dataset]: https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset
-
-* [FaceNet model]: https://github.com/iwantooxxoox/Keras-OpenFace/
+* [Deep Learning for Computer Vision](https://machinelearningmastery.com/deep-learning-for-computer-vision)
+* [Convolutional Model course from deeplearning.ai](https://www.coursera.org/learn/convolutional-neural-networks)
+* [How to collate face recognition dataset](https://www.pyimagesearch.com/2018/06/11/how-to-build-a-custom-face-recognition-dataset/)
+* [How to detect faces from video stream in open cv](https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/)
+* [OpenCV Face Recognition](https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition)
+* [5 celebrities faces dataset](https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset)
+* [FaceNet model](https://github.com/iwantooxxoox/Keras-OpenFace/)
