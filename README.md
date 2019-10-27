@@ -87,11 +87,36 @@ Accuracy: Train=88.496, Test=83.333
 
 This means that the model is able to correctly predict 88% of the training data compared to the expected training labels; and correctly predicted 83% of the validation data compared to the expected validation labels.
 
-( TODO: Use PCA to visualize quality of aligned embeddings compared to non-aligned embeddings. )
+To create a visual plot of the facial embeddings, we can use PCA to reduce the number of dimensions of the features from a higher dimensional space to a 2D or 3D dimensional space for plotting. A value of 60 components is selected as it achieves over 99% accuracy of reconstructing the original features. Only the first two components are shown on the plot:
+
+![Base model facial embedding](artifacts/base_embedding.png)
+
+From the plot, it can be seen that while the baseline model is able to generate fairly accurate embeddings for each identity whereby similar facial embeddings are clustered closely together.
+
+However, some of the embeddings are correlated to other identities than its own. Examples of these include the "ben afflek", "jerry seinfeld" and "madonna" identities.
+
+These could be a result of the difference in the training data for each of those groups which result in a lower quality facial embedding created for each group.
+
+One approach could be to try another pretrained model to create facial embeddings and compare its accuracy to the baseline model. 
+
 
 ## 5. Improvements
 
 ( Describes experimental results for attempts to improve the performance of the better performing models, such as hyperparameter tuning and ensemble methods. )
+
+## 5.1 Using different model for facial embeddings
+
+An [Alternate Facenet model] is used to generate the facial embeddings to test its accuracy against the baseline model.
+
+The [Alternate Facenet model] is pretrained on the MS-Celeb-1M dataset and we will be using the pretrained model directly.
+
+
+
+
+
+
+
+
 
 ## 6. Final Model
 
@@ -109,6 +134,7 @@ This means that the model is able to correctly predict 88% of the training data 
 [OpenCV Face Recognition]: https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition
 [5 celebrities faces dataset]: https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset
 [FaceNet model]: https://github.com/iwantooxxoox/Keras-OpenFace/
+[Alternate Facenet model]: https://github.com/nyoki-mtl/keras-facenet
 
 * [Deep Learning for Computer Vision](https://machinelearningmastery.com/deep-learning-for-computer-vision)
 * [Convolutional Model course from deeplearning.ai](https://www.coursera.org/learn/convolutional-neural-networks)
@@ -117,3 +143,4 @@ This means that the model is able to correctly predict 88% of the training data 
 * [OpenCV Face Recognition](https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition)
 * [5 celebrities faces dataset](https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset)
 * [FaceNet model](https://github.com/iwantooxxoox/Keras-OpenFace/)
+* [Facenet Keras model]: (https://github.com/nyoki-mtl/keras-facenet)
