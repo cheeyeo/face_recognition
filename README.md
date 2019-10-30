@@ -118,6 +118,7 @@ Compared to the baseline model's plot above, it can be seen that the embeddings 
 
 Retraining the model using these new embeddings result in both accuracy scores of `100%` for the train and validation sets. The high accuracy values could be attributed to the small dataset and the model could be overfitted to the training data.
 
+A more accurate evaluation would be to create a separate test set comprising of images of the identities from the training data and random images of unknown identities. These images would not have been used for training or validation.
 
 ## 6. Final Model
 
