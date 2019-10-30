@@ -6,7 +6,7 @@ from mtcnn.mtcnn import MTCNN
 import pickle
 import cv2
 
-def get_embedding(face_pixels, model, mode='normalize'):
+def get_embedding(face_pixels, model, channel_first, mode='normalize'):
 	face_pixels = face_pixels.astype('float32')
 
 	if mode == 'normalize':
@@ -21,7 +21,8 @@ def get_embedding(face_pixels, model, mode='normalize'):
 		face_pixels = (face_pixels - mean) / std
 
 	# Convert to channels first format
-	face_pixels = np.moveaxis(face_pixels, 2, 0)
+	if channel_first:
+		face_pixels = np.moveaxis(face_pixels, 2, 0)
 
 	sample = np.expand_dims(face_pixels, axis=0)
 
@@ -117,18 +118,18 @@ def extract_face(filename, detector, required_size=(96, 96), align=False):
 	return face_array
 
 
-def load_faces(directory, align=False):
+def load_faces(directory, size, align=False):
 	detector = MTCNN()
 	faces = list()
 
 	for filename in os.listdir(directory):
 		filename = os.path.sep.join([directory, filename])
-		face = extract_face(filename, detector, required_size=(96, 96), align=align)
+		face = extract_face(filename, detector, required_size=(size, size), align=align)
 		faces.append(face)
 
 	return faces
 
-def load_dataset(directory, align=False):
+def load_dataset(directory, size, align=False):
 	tmpX, tmpy = list(), list()
 
 	for subdir in os.listdir(directory):
@@ -138,7 +139,7 @@ def load_dataset(directory, align=False):
 		if not os.path.isdir(path):
 			continue
 
-		faces = load_faces(path, align=align)
+		faces = load_faces(path, int(size), align=align)
 
 		labels = [subdir for _ in range(len(faces))]
 

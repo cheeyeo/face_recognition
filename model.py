@@ -2,13 +2,16 @@ import tensorflow as tf
 from keras import backend as K
 from keras.layers import Conv2D, ZeroPadding2D, Activation, Input, concatenate
 from keras.models import Model
+from keras.models import load_model
 from keras.layers.normalization import BatchNormalization
 from keras.layers.pooling import MaxPooling2D, AveragePooling2D
 from keras.layers.core import Lambda, Flatten, Dense
 
 from inception_blocks_v2 import *
 
-K.set_image_data_format('channels_first')
+def facenet_keras_model(file):
+  model = load_model(file)
+  return model
 
 def triplet_loss(y_true, y_pred, alpha=0.2):
   """
