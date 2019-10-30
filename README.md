@@ -144,4 +144,4 @@ Retraining the model using these new embeddings result in both accuracy scores o
 * [OpenCV Face Recognition](https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition)
 * [5 celebrities faces dataset](https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset)
 * [FaceNet model](https://github.com/iwantooxxoox/Keras-OpenFace/)
-* [Facenet Keras model]: (https://github.com/nyoki-mtl/keras-facenet)
+* [Facenet Keras model] (https://github.com/nyoki-mtl/keras-facenet)
