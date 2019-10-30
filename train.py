@@ -1,35 +1,14 @@
-import os
 import numpy as np
-from PIL import Image
-from utils import get_embedding, extract_face, save_obj
-from model import face_model, triplet_loss
-from fr_utils import *
+from utils import save_obj
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 
-from keras import backend as K
-from keras.models import load_model
-
-K.set_image_data_format('channels_first')
-
 data = np.load("faces_embeddings.npz")
 trainX, trainY, testX, testY = data["arr_0"], data["arr_1"], data["arr_2"], data["arr_3"]
 
 print("[INFO] Loaded embeddings shape: trainX: {}, trainY: {}, testX: {}, testY: {}".format(trainX.shape, trainY.shape, testX.shape, testY.shape))
-
-# Here we are testing the embeddings by comparing distances between embeddings...
-
-if os.path.exists("face_model.h5"):
-	model = load_model("face_model.h5", custom_objects={"triplet_loss": triplet_loss})
-	# model.summary()
-else:
-	model = face_model((3, 96, 96))
-	model.summary()
-	print('[INFO] Loading model weights...')
-	load_weights_from_FaceNet(model)
-
 
 # Normalize input vectors
 in_encoder = Normalizer(norm='l2')
